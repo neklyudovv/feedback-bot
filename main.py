@@ -6,11 +6,12 @@ from telegram.ext import Updater, CallbackContext, Filters, MessageHandler, Comm
 def admin_handler(update: Update, context: CallbackContext):  # admin: отвечать на сообщения чтобы бот пересылал ответ юзеру
     #update.message.reply_text(text='adm')
     if update.message.reply_to_message:
-    	msg_text = update.message.reply_to_message['text']
-    	msg_text = msg_text[msg_text.find(':')+1:]
-    	id = msg_text[:msg_text.find(':')]
-    	text = f'Ответил вам: \n{update.message.text}'
-    	context.bot.sendMessage(chat_id=id, text=text)
+        user = update.message.from_user
+        msg_text = update.message.reply_to_message['text']
+        msg_text = msg_text[msg_text.find(':')+1:]
+        id = msg_text[:msg_text.find(':')]
+        text = f'{user["username"]} Ответил вам: \n{update.message.text}'
+        context.bot.sendMessage(chat_id=id, text=text)
 
 
 def regular_handler(update: Update, context: CallbackContext):  # user: /start, написать сообщение которое будет форснуто админу
